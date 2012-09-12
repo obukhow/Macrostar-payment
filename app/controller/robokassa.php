@@ -14,7 +14,7 @@ class robokassa extends \F3instance
         try {
             $orderId = $this->get("POST.InvId");
 
-            $order = new Axon('orders');
+            $order = new \Axon('orders');
             $order->load("order_id='$orderId'");
 
             $payment = \model\payment::getPayment($order);
@@ -40,7 +40,7 @@ class robokassa extends \F3instance
         try {
             $orderId = $this->get("POST.InvId");
             $amount = $this->get("POST.OutSum");
-            $order = new Axon('orders');
+            $order = new \Axon('orders');
             $order->load("order_id='$orderId'");
             if ($order->dry()) {
                 throw new Exception("Invalid order id", 1);
