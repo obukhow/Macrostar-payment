@@ -12,6 +12,13 @@ class robokassa extends \F3instance
     public function resultAction()
     {
         try {
+            $this->set('DB',
+                new \DB(
+                    'mysql:host=' . $this->get('db_server') . ';port=3306;dbname=' . $this->get('db_name'),
+                    $this->get('db_user'),
+                    $this->get('db_pass')
+                )
+            );
             $orderId = $this->get("POST.InvId");
 
             $order = new \Axon('orders');
@@ -38,6 +45,13 @@ class robokassa extends \F3instance
     public function successAction()
     {
         try {
+            $this->set('DB',
+                new \DB(
+                    'mysql:host=' . $this->get('db_server') . ';port=3306;dbname=' . $this->get('db_name'),
+                    $this->get('db_user'),
+                    $this->get('db_pass')
+                )
+            );
             $orderId = $this->get("POST.InvId");
             $amount = $this->get("POST.OutSum");
             $order = new \Axon('orders');
@@ -64,6 +78,13 @@ class robokassa extends \F3instance
     public function errorAction()
     {
         try {
+            $this->set('DB',
+                new \DB(
+                    'mysql:host=' . $this->get('db_server') . ';port=3306;dbname=' . $this->get('db_name'),
+                    $this->get('db_user'),
+                    $this->get('db_pass')
+                )
+            );
             $orderId = $this->get("POST.InvId");
             $amount = $this->get("POST.OutSum");
             $order = new Axon('orders');
