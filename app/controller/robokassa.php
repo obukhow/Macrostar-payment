@@ -73,7 +73,7 @@ class robokassa extends \F3instance
             }
             $order->status = \controller\order::STATUS_CANCELED;
             $order->save();
-            $this->set("SESSION.error") = "Вы отказались от оплаты заказа. Вы можете вернуться к оплате в любое время, выбрав данный заказ на на вашей странице.";
+            $this->set("SESSION.error", "Вы отказались от оплаты заказа. Вы можете вернуться к оплате в любое время, выбрав данный заказ на на вашей странице.");
         } catch (Exception $e) {
             $this->set("SESSION.error") = $e->getMessage();
             $log = new \Log('exception.log');
