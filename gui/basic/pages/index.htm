@@ -1,0 +1,9 @@
+<h1> Вы оплачиваете:</h1>
+<h2><?php echo $this->get('Song')->TITLE?></h2>
+<form method="post" action="/order/create">
+    <span class="bg-span input-span"><input type="text" name="amount" value="<?php echo $this->get('minAmount') ?>" /></span>
+    <span class="bg-span submit-span"><input type="submit" value="Оплатить" /></span>
+    <input type="hidden" name="payment_method" value="robokassa" />
+</form>
+<div class="clear"></div>
+<p class="note">Сумма указывается в рублях РФ. Минимальная сумма для оплаты <?php echo $this->get('minAmount') ?> руб. Оплата возможна с помощью Webmoney, Яндекс.Деньги, в терминалах оплаты, банковскими картами, с мобильного счёта Мегафон и МТС, в салонах свзяи «Связной» и «Евросеть» и др.</p>
