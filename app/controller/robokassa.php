@@ -30,7 +30,7 @@ class robokassa extends \F3instance
             $log = new \Log('exception.log');
             $log->write($e->getMessage());
             $log->write($e->getTraceAsString());
-            $this->reroute('/order/error');1
+            $this->reroute('/order/error');
             echo 'Fail'; die();
         }
     }
