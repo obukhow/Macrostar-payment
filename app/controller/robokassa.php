@@ -27,6 +27,10 @@ class robokassa extends \F3instance
             echo "OK" . $order->order_id;
 
         } catch (\Exception $e) {
+            $log = new \Log('exception.log');
+            $log->write($e->getMessage());
+            $log->write($e->getTraceAsString());
+            $this->reroute('/order/error');1
             echo 'Fail'; die();
         }
     }
@@ -49,7 +53,7 @@ class robokassa extends \F3instance
             $this->reroute('/order/success');
 
         } catch (\Exception $e) {
-            $this->set("SESSION.error") = $e->getMessage();
+            $this->set("SESSION.error", $e->getMessage());
             $log = new \Log('exception.log');
             $log->write($e->getMessage());
             $log->write($e->getTraceAsString());
