@@ -66,7 +66,7 @@ class Robokassa extends \F3instance
             return false;
         }
         $privateKey = array($amount, $orderId, $this->password2);
-        if ($signatureValue != md5(implode(':', $privateKey))) {
+        if ($signatureValue != strtoupper(md5(implode(':', $privateKey)))) {
             return false;
         }
 
