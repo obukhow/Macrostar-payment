@@ -8,7 +8,7 @@ class Robokassa extends \F3instance
 
     public $currency = "QiwiR";
 
-    public $url, $password, $merchant, $order;
+    public $url, $password, $password2, $merchant, $order;
 
     protected $_code = 'robokassa';
 
@@ -21,6 +21,7 @@ class Robokassa extends \F3instance
         }
         $this->merchant = $this->get('robokassa_merchant');
         $this->password = $this->get('robokassa_password');
+        $this->password2 = $this->get('robokassa_password2');
     }
 
     public function setOrder($order)
@@ -51,20 +52,20 @@ class Robokassa extends \F3instance
      *
      * @return boolean
      */
-    public function validateOrder($order)
+    public function validateOrder()
     {
         $orderId = $this->get("POST.InvId");
         $amount = $this->get("POST.OutSum");
         $signatureValue = $this->get("POST.SignatureValue");
        
-        if ($order->dry()) {
+        if ($this->order->dry()) {
             return false;
         }
 
-        if ($order->amount > $amount) {
+        if ($this->order->amount > $amount) {
             return false;
         }
-        $privateKey = array($amount, $orderId, $this->password);
+        $privateKey = array($amount, $orderId, $this->password2);
         if ($signatureValue != md5(implode(':', $privateKey))) {
             return false;
         }

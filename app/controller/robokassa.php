@@ -25,8 +25,8 @@ class robokassa extends \F3instance
             $order->load("order_id='$orderId'");
 
             $payment = \model\payment::getPayment($order);
-            if (!$payment->validateOrder($order)) {
-                throw new Exception("Invalid order params", 1);       
+            if (!$payment->validateOrder()) {
+                throw new \Exception("Invalid order params", 1);       
             }
             $order->status = \controller\order::STATUS_PAID;
             $order->payment_date = date("Y-m-d H:i:s");
@@ -42,6 +42,11 @@ class robokassa extends \F3instance
         }
     }
 
+    /**
+     * Robokassa success section
+     *
+     * @return [type] [description]
+     */
     public function successAction()
     {
         try {
@@ -57,7 +62,7 @@ class robokassa extends \F3instance
             $order = new \Axon('orders');
             $order->load("order_id='$orderId'");
             if ($order->dry()) {
-                throw new Exception("Invalid order id", 1);
+                throw new \Exception("Invalid order id", 1);
             }
             if ($order->status != \controller\order::STATUS_PAID) {
                 $this->set('SESSION.order', $order->order_id);
@@ -87,21 +92,21 @@ class robokassa extends \F3instance
             );
             $orderId = $this->get("POST.InvId");
             $amount = $this->get("POST.OutSum");
-            $order = new Axon('orders');
+            $order = new \Axon('orders');
             $order->load("order_id='$orderId'");
             if ($order->dry()) {
-                throw new Exception("Invalid order id", 1);
+                throw new \Exception("Invalid order id", 1);
             }
             $order->status = \controller\order::STATUS_CANCELED;
             $order->save();
             $this->set("SESSION.error", "Вы отказались от оплаты заказа. Вы можете вернуться к оплате в любое время, выбрав данный заказ на на вашей странице.");
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->set("SESSION.error", $e->getMessage());
             $log = new \Log('exception.log');
             $log->write($e->getMessage());
             $log->write($e->getTraceAsString());
-            $this->reroute('/order/error');
         }
+        return $this->reroute('/order/error');
     }
 
 }
